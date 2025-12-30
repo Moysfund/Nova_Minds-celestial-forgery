@@ -1,0 +1,631 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>NovaMinds — Imagine Cup</title>
+  <meta name="description" content="NovaMinds — Imagine Cup team building a resilient, playful, privacy-first experience." />
+  <meta name="theme-color" content="#0b1220" />
+  <style>
+    :root{
+      --bg:#071025;
+      --card:#0f1724;
+      --muted:#9fb0c8;
+      --text:#eaf2ff;
+      --accent1:#7c3aed;
+      --accent2:#06b6d4;
+      --glass: rgba(255,255,255,0.04);
+      --radius:14px;
+      --shadow: 0 10px 30px rgba(2,6,23,0.6);
+      --glass-border: rgba(124,58,237,0.12);
+    }
+    [data-theme="light"]{
+      --bg:#f6fbff;
+      --card:#ffffff;
+      --muted:#475569;
+      --text:#071029;
+      --glass: rgba(2,6,23,0.03);
+      --shadow: 0 8px 20px rgba(17,24,39,0.06);
+      --glass-border: rgba(124,58,237,0.06);
+    }
+
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family:Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      background:
+        radial-gradient(800px 400px at 10% 10%, rgba(34,211,238,0.06), transparent 20%),
+        radial-gradient(900px 500px at 90% 90%, rgba(124,58,237,0.06), transparent 20%),
+        var(--bg);
+      color:var(--text);
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      line-height:1.5;
+      padding-bottom:80px;
+    }
+
+    a{color:inherit;text-decoration:none}
+    img{max-width:100%;display:block}
+
+    .container{max-width:1150px;margin:0 auto;padding:20px}
+
+    /* Header */
+    header{
+      position:sticky;top:0;z-index:60;
+      backdrop-filter: blur(8px);
+      background: linear-gradient(180deg, rgba(7,18,37,0.6), rgba(7,18,37,0.25));
+      border-bottom:1px solid var(--glass-border);
+    }
+    .nav{
+      display:flex;align-items:center;gap:18px;justify-content:space-between;padding:12px 0;
+    }
+    .brand{
+      display:flex;align-items:center;gap:12px;
+    }
+    .logo{
+      width:44px;height:44px;border-radius:10px;
+      background:conic-gradient(from 180deg, var(--accent1), var(--accent2), #22c1c3);
+      box-shadow: 0 8px 20px rgba(124,58,237,0.18), inset 0 2px 10px rgba(255,255,255,0.04);
+      display:grid;place-items:center;color:white;font-weight:800;
+    }
+    .brand h1{font-size:1rem;margin:0;letter-spacing:0.6px}
+    .brand small{display:block;color:var(--muted);font-weight:600;font-size:0.78rem;margin-top:2px}
+
+    nav .links{display:flex;gap:12px;align-items:center}
+    .links a{padding:8px 12px;border-radius:10px;color:var(--muted);font-weight:700}
+    .links a:hover{background:rgba(124,58,237,0.12);color:var(--text);transform:translateY(-2px)}
+
+    .actions{display:flex;gap:10px;align-items:center}
+    .btn{
+      background:linear-gradient(135deg,var(--accent1),var(--accent2));
+      color:white;padding:9px 14px;border-radius:12px;border:0;font-weight:800;cursor:pointer;
+      box-shadow:0 10px 26px rgba(124,58,237,0.18);
+    }
+    .btn.secondary{
+      background:transparent;border:1px solid var(--glass-border);color:var(--text);font-weight:700;
+    }
+    .icon-btn{background:var(--glass);border:1px solid var(--glass-border);padding:8px;border-radius:10px;cursor:pointer}
+
+    .hamburger{display:none}
+
+    /* Hero */
+    .hero{padding:56px 0 28px}
+    .hero-grid{display:grid;grid-template-columns:1fr 460px;gap:28px;align-items:center}
+    .eyebrow{display:inline-flex;gap:10px;align-items:center;background:rgba(34,211,238,0.06);padding:8px 12px;border-radius:999px;border:1px solid rgba(34,211,238,0.08);color:var(--muted);font-weight:700}
+    .title{font-size:clamp(2rem,4.2vw,3.2rem);margin:12px 0 8px;line-height:1.02}
+    .title .accent{background:linear-gradient(90deg,var(--accent1),var(--accent2));-webkit-background-clip:text;background-clip:text;color:transparent}
+    .lead{color:var(--muted);font-size:1.02rem;margin-bottom:18px}
+
+    .cta-row{display:flex;gap:12px;flex-wrap:wrap}
+    .chip{padding:8px 12px;border-radius:999px;background:rgba(124,58,237,0.08);border:1px solid rgba(124,58,237,0.08);font-weight:700;color:var(--muted)}
+
+    /* Visual card */
+    .visual{
+      background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      border-radius:var(--radius);padding:18px;border:1px solid var(--glass-border);box-shadow:var(--shadow);
+    }
+    #viz{width:100%;height:300px;border-radius:10px;background:linear-gradient(180deg, rgba(2,6,23,0.6), rgba(2,6,23,0.35));display:block}
+
+    /* Sections */
+    section{padding:44px 0}
+    .section-head{display:flex;justify-content:space-between;align-items:baseline;gap:12px;margin-bottom:18px}
+    .section-head h2{margin:0;font-size:1.4rem}
+    .muted{color:var(--muted)}
+
+    .grid{
+      display:grid;grid-template-columns:repeat(12,1fr);gap:16px;
+    }
+    .col-6{grid-column:span 6}
+    .col-4{grid-column:span 4}
+    .col-12{grid-column:span 12}
+
+    .card{
+      background:var(--card);padding:16px;border-radius:12px;border:1px solid var(--glass-border);box-shadow:var(--shadow);
+      transition:transform .28s ease,box-shadow .28s ease;
+    }
+    .card:hover{transform:translateY(-6px);box-shadow:0 18px 40px rgba(2,6,23,0.6)}
+
+    /* Team */
+    .member{display:flex;gap:12px;align-items:center}
+    .avatar{width:64px;height:64px;border-radius:12px;background:linear-gradient(135deg, rgba(124,58,237,0.18), rgba(34,211,238,0.12));display:grid;place-items:center;font-weight:800;color:white}
+    .role{color:var(--muted);font-weight:700;font-size:0.92rem}
+    .tags{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
+    .tag{background:rgba(34,211,238,0.06);padding:6px 10px;border-radius:999px;border:1px solid rgba(34,211,238,0.06);font-weight:800;color:var(--muted);font-size:0.82rem}
+
+    /* Contact */
+    .contacts{display:flex;gap:12px;flex-wrap:wrap}
+    .contact-card{display:flex;gap:12px;align-items:center;padding:12px;border-radius:12px;background:var(--glass);border:1px solid var(--glass-border);min-width:220px}
+    .contact-card svg{flex:0 0 28px}
+
+    /* Footer */
+    footer{padding:28px 0;border-top:1px solid var(--glass-border);color:var(--muted)}
+    .footer-row{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+
+    /* small screens */
+    @media (max-width:980px){
+      .hero-grid{grid-template-columns:1fr;gap:18px}
+      .visual{order:2}
+      .links{display:none}
+      .hamburger{display:inline-flex}
+      .col-6{grid-column:span 12}
+      .col-4{grid-column:span 12}
+      .container{padding:16px}
+    }
+
+    @media (max-width:520px){
+      .title{font-size:1.6rem}
+      .avatar{width:56px;height:56px}
+    }
+
+    /* small interactive touches */
+    .focus-ring:focus{outline:3px solid rgba(124,58,237,0.18);outline-offset:3px;border-radius:10px}
+    .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container">
+      <div class="nav" role="navigation" aria-label="Main navigation">
+        <div class="brand" aria-hidden="false">
+          <div class="logo" aria-hidden="true">NM</div>
+          <div>
+            <h1>NovaMinds</h1>
+            <small>Celestial Forge — Imagine Cup 2025</small>
+          </div>
+        </div>
+
+        <div class="links" role="menubar" aria-label="Primary links">
+          <a href="#about" role="menuitem">About</a>
+          <a href="#team" role="menuitem">Team</a>
+          <a href="#project" role="menuitem">Project</a>
+          <a href="#contact" role="menuitem">Contact</a>
+        </div>
+
+        <div class="actions">
+          <button class="icon-btn focus-ring" id="themeToggle" aria-label="Toggle theme" title="Toggle theme">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+          <a class="btn secondary" href="#project">Our Project</a>
+          <button class="hamburger icon-btn" id="menuBtn" aria-expanded="false" aria-controls="mobileMenu" title="Open menu">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+          </button>
+        </div>
+      </div>
+
+      <div id="mobileMenu" style="display:none;padding-bottom:12px">
+        <div style="display:flex;flex-direction:column;gap:8px">
+          <a href="#about">About</a>
+          <a href="#team">Team</a>
+          <a href="#project">Project</a>
+          <a href="#contact">Contact</a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero container" id="home" aria-labelledby="heroTitle">
+      <div class="hero-grid">
+        <div>
+          <div class="eyebrow" aria-hidden="true">Imagine Cup • NovaMinds</div>
+          <h2 id="heroTitle" class="title">
+            Crafting playful, resilient experiences for the <span class="accent">Imagine Cup</span>
+          </h2>
+          <p class="lead" id="leadText">Codename: <strong>heavenly gamy techy one of one</strong> — a privacy-first, low-bandwidth, delight-driven platform built in Lagos for global impact.</p>
+
+          <div class="cta-row" role="group" aria-label="Primary actions">
+            <a class="btn" href="#contact">Get in touch</a>
+            <div class="chip" title="Project codename">Codename: One-of-One</div>
+          </div>
+
+          <div style="margin-top:18px;color:var(--muted);font-weight:700">
+            Quick facts:
+            <span style="display:inline-block;margin-left:10px" class="tag">PWA-ready</span>
+            <span style="display:inline-block;margin-left:8px" class="tag">Offline-first</span>
+            <span style="display:inline-block;margin-left:8px" class="tag">Privacy-aware</span>
+          </div>
+        </div>
+
+        <aside class="visual" aria-hidden="false" aria-label="Interactive visualization">
+          <canvas id="viz"></canvas>
+        </aside>
+      </div>
+    </section>
+
+    <section id="about" class="container" aria-labelledby="aboutTitle">
+      <div class="section-head">
+        <h2 id="aboutTitle">About NovaMinds</h2>
+        <div class="muted">We build human-centered systems that perform under constraints.</div>
+      </div>
+
+      <div class="grid">
+        <div class="col-6">
+          <div class="card">
+            <h3 style="margin-top:0">Our Principles</h3>
+            <ul style="margin:10px 0 0;padding-left:18px;color:var(--muted)">
+              <li><strong>Inclusive by default</strong> — accessibility baked into every flow.</li>
+              <li><strong>Performance-first</strong> — small payloads, progressive enhancement.</li>
+              <li><strong>Resilient</strong> — offline-first syncbacks.</li>
+              <li><strong>Transparent</strong> — privacy controls and minimal telemetry.</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="col-6">
+          <div class="card">
+            <h3 style="margin-top:0">What we’re building</h3>
+            <p class="muted">A gamified learning and collaboration platform that adapts to network conditions, encourages community contributions, and keeps user control at the center.</p>
+            <div class="tags" style="margin-top:12px">
+              <span class="tag">TypeScript</span>
+              <span class="tag">PWA</span>
+              <span class="tag">Edge-ready</span>
+              <span class="tag">Design Systems</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="team" class="container" aria-labelledby="teamTitle">
+      <div class="section-head">
+        <h2 id="teamTitle">Team</h2>
+        <div class="muted">The people shipping the vision</div>
+      </div>
+
+      <div class="grid">
+        <div class="col-4">
+          <div class="card">
+            <div class="member">
+              <div class="avatar">DO</div>
+              <div>
+                <div style="display:flex;align-items:center;gap:8px">
+                  <strong>David Ojo</strong>
+                </div>
+                <div class="role">Team Head & Founder — Full Stack Developer</div>
+                <div class="tags">
+                  <span class="tag">Leadership</span>
+                  <span class="tag">Systems</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-4">
+          <div class="card">
+            <div class="member">
+              <div class="avatar">CL</div>
+              <div>
+                <strong>Chinasa Loveth</strong>
+                <div class="role">Project Manager</div>
+                <div class="tags">
+                  <span class="tag">Delivery</span>
+                  <span class="tag">Ops</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-4">
+          <div class="card">
+            <div class="member">
+              <div class="avatar">E</div>
+              <div>
+                <strong>Eric</strong>
+                <div class="role">Aspiring DevEx • Full Stack Developer</div>
+                <div class="tags">
+                  <span class="tag">DX</span>
+                  <span class="tag">APIs</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-4">
+          <div class="card">
+            <div class="member">
+              <div class="avatar">M</div>
+              <div>
+                <strong>Micky</strong>
+                <div class="role">Frontend Developer</div>
+                <div class="tags">
+                  <span class="tag">UI</span>
+                  <span class="tag">Animations</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-4">
+          <div class="card">
+            <div class="member">
+              <div class="avatar">CK</div>
+              <div>
+                <strong>CodeKage</strong>
+                <div class="role">Fullstack • Frontend-heavy Developer</div>
+                <div class="tags">
+                  <span class="tag">Architecture</span>
+                  <span class="tag">Performance</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <section id="project" class="container" aria-labelledby="projectTitle">
+      <div class="section-head">
+        <h2 id="projectTitle">Project</h2>
+        <div class="muted">A snapshot of our approach</div>
+      </div>
+
+      <div class="grid">
+        <div class="col-6">
+          <div class="card">
+            <h3 style="margin-top:0">Focus areas</h3>
+            <ul style="margin:10px 0 0;padding-left:18px;color:var(--muted)">
+              <li><strong>Gamified learning:</strong> meaningful progression and social rewards.</li>
+              <li><strong>Low-bandwidth UX:</strong> progressive hydration and compact payloads.</li>
+              <li><strong>Resilience:</strong> offline queues and conflict resolution.</li>
+              <li><strong>Ethical telemetry:</strong> opt-in, minimal, and transparent.</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="col-6">
+          <div class="card">
+            <h3 style="margin-top:0">Milestones</h3>
+            <div style="margin-top:8px;color:var(--muted)">
+              <div style="margin-bottom:8px"><strong>Discovery:</strong> user research & constraints</div>
+              <div style="margin-bottom:8px"><strong>Prototype:</strong> flows, accessibility tests</div>
+              <div style="margin-bottom:8px"><strong>Alpha:</strong> core features & offline</div>
+              <div style="margin-bottom:8px"><strong>Beta:</strong> polish & launch readiness</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact" class="container" aria-labelledby="contactTitle">
+      <div class="section-head">
+        <h2 id="contactTitle">Contact</h2>
+        <div class="muted">Reach out — we respond quickly</div>
+      </div>
+
+      <div style="display:flex;gap:16px;flex-wrap:wrap">
+        <a class="contact-card card" href="mailto:novaminds72@gmail.com" aria-label="Email NovaMinds">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M3 8.5v7A2.5 2.5 0 0 0 5.5 18h13A2.5 2.5 0 0 0 21 15.5v-7" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M3 8.5l9 6 9-6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <div>
+            <div style="font-weight:800">novaminds72@gmail.com</div>
+            <div class="muted" style="font-size:0.9rem">Email</div>
+          </div>
+        </a>
+
+        <a class="contact-card card" href="https://x.com/novaminds72" target="_blank" rel="noopener" aria-label="X handle">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M23 3s-1 4-5 6c4 1 5 6 1 9-4 3-9 1-11 0 0 0-2 2-6 2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <div>
+            <div style="font-weight:800">@novaminds72</div>
+            <div class="muted" style="font-size:0.9rem">X</div>
+          </div>
+        </a>
+
+        <a class="contact-card card" href="https://www.instagram.com/novaminds72?igsh=MTJnY3lmNTN1eTAyaQ%3D%3D&utm_source=qr" target="_blank" rel="noopener" aria-label="Instagram">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5" stroke="currentColor" stroke-width="1.6"/><circle cx="12" cy="12" r="3.2" stroke="currentColor" stroke-width="1.6"/><circle cx="17.5" cy="6.5" r="0.6" fill="currentColor"/></svg>
+          <div>
+            <div style="font-weight:800">@novaminds72</div>
+            <div class="muted" style="font-size:0.9rem">Instagram</div>
+          </div>
+        </a>
+      </div>
+
+      <div style="margin-top:18px">
+        <form id="contactForm" class="card" style="display:flex;flex-direction:column;gap:10px;max-width:720px">
+          <label class="muted" for="name">Name</label>
+          <input id="name" name="name" placeholder="Your name" style="padding:10px;border-radius:10px;border:1px solid var(--glass-border);background:transparent;color:var(--text)" />
+
+          <label class="muted" for="message">Message</label>
+          <textarea id="message" name="message" rows="4" placeholder="Short message or collaboration idea" style="padding:10px;border-radius:10px;border:1px solid var(--glass-border);background:transparent;color:var(--text)"></textarea>
+
+          <div style="display:flex;gap:10px;align-items:center">
+            <button type="submit" class="btn">Send (mailto)</button>
+            <div class="muted" style="font-size:0.9rem">We’ll reply via email</div>
+          </div>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container footer-row">
+      <div>© <strong>NovaMinds</strong> — Built in Lagos for Imagine Cup</div>
+      <div class="muted">Designed for humans • Privacy-first</div>
+    </div>
+  </footer>
+
+  <button id="toTop" aria-label="Back to top" title="Back to top" style="position:fixed;right:18px;bottom:18px;width:48px;height:48px;border-radius:12px;border:1px solid var(--glass-border);background:var(--glass);display:grid;place-items:center;cursor:pointer;box-shadow:var(--shadow);opacity:0;transform:translateY(8px);transition:all .28s ease;z-index:60">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 19V6M5 12l7-7 7 7" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  </button>
+
+  <script>
+    // Theme toggle (persist)
+    const themeToggle = document.getElementById('themeToggle');
+    const root = document.documentElement;
+    const saved = localStorage.getItem('nm_theme') || (window.matchMedia && window.matchMedia('(prefers-color-scheme:light)').matches ? 'light' : 'dark');
+    document.body.setAttribute('data-theme', saved);
+    function setTheme(t){ document.body.setAttribute('data-theme', t); localStorage.setItem('nm_theme', t); }
+    themeToggle.addEventListener('click', () => setTheme(document.body.getAttribute('data-theme') === 'light' ? 'dark' : 'light'));
+
+    // Mobile menu
+    const menuBtn = document.getElementById('menuBtn');
+    const mobileMenu = document.getElementById('mobileMenu');
+    menuBtn && menuBtn.addEventListener('click', () => {
+      const open = mobileMenu.style.display === 'block';
+      mobileMenu.style.display = open ? 'none' : 'block';
+      menuBtn.setAttribute('aria-expanded', String(!open));
+    });
+
+    // Smooth scroll for internal links
+    document.querySelectorAll('a[href^="#"]').forEach(a => {
+      a.addEventListener('click', (e) => {
+        const id = a.getAttribute('href').slice(1);
+        if (!id) return;
+        const el = document.getElementById(id);
+        if (el) {
+          e.preventDefault();
+          el.scrollIntoView({behavior:'smooth',block:'start'});
+        }
+      });
+    });
+
+    // Back to top
+    const toTop = document.getElementById('toTop');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 320) { toTop.style.opacity = '1'; toTop.style.transform = 'translateY(0)'; }
+      else { toTop.style.opacity = '0'; toTop.style.transform = 'translateY(8px)'; }
+    });
+    toTop.addEventListener('click', () => window.scrollTo({top:0,behavior:'smooth'}));
+
+    // Contact form: open mailto with prefilled content (no server)
+    const form = document.getElementById('contactForm');
+    form && form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const name = encodeURIComponent(document.getElementById('name').value || 'Friend');
+      const message = encodeURIComponent(document.getElementById('message').value || '');
+      const subject = encodeURIComponent('NovaMinds contact from website');
+      const body = encodeURIComponent(`Name: ${decodeURIComponent(name)}%0D%0A%0D%0A${decodeURIComponent(message)}`);
+      // open mail client
+      window.location.href = `mailto:novaminds72@gmail.com?subject=${subject}&body=${body}`;
+    });
+
+    // Canvas visualization: subtle particle field that responds to mouse
+    const canvas = document.getElementById('viz');
+    const ctx = canvas.getContext('2d');
+    let DPR = window.devicePixelRatio || 1;
+    function resize() {
+      const rect = canvas.getBoundingClientRect();
+      canvas.width = rect.width * DPR;
+      canvas.height = rect.height * DPR;
+      ctx.setTransform(DPR,0,0,DPR,0,0);
+    }
+    function fitCanvas() {
+      canvas.style.width = '100%';
+      canvas.style.height = '300px';
+      resize();
+    }
+    fitCanvas();
+    window.addEventListener('resize', () => { DPR = window.devicePixelRatio || 1; fitCanvas(); });
+
+    const particles = [];
+    const count = 28;
+    for (let i=0;i<count;i++){
+      particles.push({
+        x: Math.random()*canvas.width/DPR,
+        y: Math.random()*canvas.height/DPR,
+        vx: (Math.random()-0.5)*0.3,
+        vy: (Math.random()-0.5)*0.3,
+        r: 1 + Math.random()*3,
+        hue: 200 + Math.random()*120
+      });
+    }
+
+    let mouse = {x:null,y:null};
+    canvas.addEventListener('mousemove', (e) => {
+      const rect = canvas.getBoundingClientRect();
+      mouse.x = (e.clientX - rect.left);
+      mouse.y = (e.clientY - rect.top);
+    });
+    canvas.addEventListener('mouseleave', () => { mouse.x = null; mouse.y = null; });
+
+    function draw(){
+      const w = canvas.width/DPR, h = canvas.height/DPR;
+      ctx.clearRect(0,0,w,h);
+
+      // soft background glow
+      const g = ctx.createLinearGradient(0,0,w,h);
+      g.addColorStop(0, 'rgba(124,58,237,0.06)');
+      g.addColorStop(1, 'rgba(6,182,212,0.03)');
+      ctx.fillStyle = g;
+      ctx.fillRect(0,0,w,h);
+
+      // center glow
+      const cx = w/2, cy = h/2;
+      const rg = ctx.createRadialGradient(cx,cy,10,cx,cy,Math.max(w,h)/1.6);
+      rg.addColorStop(0, 'rgba(124,58,237,0.12)');
+      rg.addColorStop(1, 'rgba(6,182,212,0)');
+      ctx.fillStyle = rg;
+      ctx.fillRect(0,0,w,h);
+
+      particles.forEach(p => {
+        // attraction to mouse
+        if (mouse.x !== null) {
+          const dx = mouse.x - p.x;
+          const dy = mouse.y - p.y;
+          const dist = Math.sqrt(dx*dx+dy*dy) || 1;
+          p.vx += (dx/dist)*0.02;
+          p.vy += (dy/dist)*0.02;
+        } else {
+          // gentle drift to center
+          p.vx += (cx - p.x) * 0.0005;
+          p.vy += (cy - p.y) * 0.0005;
+        }
+
+        // friction
+        p.vx *= 0.98; p.vy *= 0.98;
+        p.x += p.vx; p.y += p.vy;
+
+        // wrap
+        if (p.x < -10) p.x = w+10;
+        if (p.x > w+10) p.x = -10;
+        if (p.y < -10) p.y = h+10;
+        if (p.y > h+10) p.y = -10;
+
+        // draw
+        ctx.beginPath();
+        ctx.fillStyle = `hsla(${p.hue},80%,60%,0.95)`;
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI*2);
+        ctx.fill();
+
+        // tail
+        ctx.beginPath();
+        ctx.strokeStyle = `hsla(${p.hue},80%,60%,0.12)`;
+        ctx.lineWidth = 1;
+        ctx.moveTo(p.x, p.y);
+        ctx.lineTo(cx, cy);
+        ctx.stroke();
+      });
+
+      requestAnimationFrame(draw);
+    }
+    draw();
+
+    // Intersection reveal for cards
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.style.transform = 'translateY(0)';
+          e.target.style.opacity = '1';
+        }
+      });
+    }, {threshold:0.12});
+    document.querySelectorAll('.card').forEach(c => {
+      c.style.transform = 'translateY(12px)';
+      c.style.opacity = '0';
+      c.style.transition = 'transform .6s cubic-bezier(.2,.9,.2,1), opacity .6s ease';
+      observer.observe(c);
+    });
+
+    // Accessibility: keyboard focus for skip links (if added later)
+    // Lightweight analytics placeholder (privacy-first): counts local visits (no external calls)
+    try {
+      const visits = Number(localStorage.getItem('nm_visits') || 0) + 1;
+      localStorage.setItem('nm_visits', visits);
+    } catch(e){ /* ignore storage errors */ }
+  </script>
+</body>
+</html>
